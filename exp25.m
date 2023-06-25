@@ -1,3 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       随机信号分析实验
+% 功能：计算合成信号的包络、相位、包络平方的概率分布
+% 作者：BenSmithLight
+% 开源地址：https://github.com/BenSmithLight/Stochastic-signal-analysis-experiment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% 产生高斯白噪声
 % 参数设置
 N = 10000; % 信号长度
@@ -9,17 +16,17 @@ fc2 = f0 + B / 2; % 带通系统的高截止频率
 n = 50; % 带通滤波器的阶数
 nfft = N; % FFT长度
 sigma = 1; % 高斯白噪声的标准差
-t = 0: 1 / fs: (N - 1) / fs; % 时间序列
+t = 0:1 / fs:(N - 1) / fs; % 时间序列
 
 % 产生高斯白噪声信号
-x = sigma*randn(1,N); % 高斯白噪声
+x = sigma * randn(1, N); % 高斯白噪声
 
 %% 通过窄带系统
 b = fir1(n, [fc1 fc2] / (fs / 2), 'bandpass', hamming (n + 1)); % 使用fir1函数和hamming窗
 
 % 计算输出信号
 Xt = filter(b, 1, x); % 使用filter函数计算输出信号
-Xt = Xt/sqrt(var(Xt)); 
+Xt = Xt / sqrt(var(Xt));
 
 %% 叠加余弦信号
 % 生成余弦信号
@@ -41,22 +48,22 @@ Zt3 = Xt + Yt3;
 
 %% 计算包络、相位、包络平方
 HX1 = imag(hilbert(Zt1)); % 希尔伯特变换
-Ac1 = Zt1.*cos(2 * pi * f0 * t) + HX1.*sin(2 * pi * f0 * t); % 解调
-As1 = -Zt1.*sin(2 * pi * f0 * t) + HX1.*cos(2 * pi * f0 * t);
+Ac1 = Zt1 .* cos(2 * pi * f0 * t) + HX1 .* sin(2 * pi * f0 * t); % 解调
+As1 = -Zt1 .* sin(2 * pi * f0 * t) + HX1 .* cos(2 * pi * f0 * t);
 Ph1 = atan2(As1, Ac1); % 相位
 A2_1 = Ac1 .^ 2 + As1 .^ 2; % 包络平方
 At1 = sqrt(A2_1); % 包络
 
 HX2 = imag(hilbert(Zt2)); % 希尔伯特变换
-Ac2 = Zt2.*cos(2 * pi * f0 * t) + HX2.*sin(2 * pi * f0 * t); % 解调
-As2 = -Zt2.*sin(2 * pi * f0 * t) + HX2.*cos(2 * pi * f0 * t);
+Ac2 = Zt2 .* cos(2 * pi * f0 * t) + HX2 .* sin(2 * pi * f0 * t); % 解调
+As2 = -Zt2 .* sin(2 * pi * f0 * t) + HX2 .* cos(2 * pi * f0 * t);
 Ph2 = atan2(As2, Ac2); % 相位
 A2_2 = Ac2 .^ 2 + As2 .^ 2; % 包络平方
 At2 = sqrt(A2_2); % 包络
 
 HX3 = imag(hilbert(Zt3)); % 希尔伯特变换
-Ac3 = Zt3.*cos(2 * pi * f0 * t) + HX3.*sin(2 * pi * f0 * t); % 解调
-As3 = -Zt3.*sin(2 * pi * f0 * t) + HX3.*cos(2 * pi * f0 * t);
+Ac3 = Zt3 .* cos(2 * pi * f0 * t) + HX3 .* sin(2 * pi * f0 * t); % 解调
+As3 = -Zt3 .* sin(2 * pi * f0 * t) + HX3 .* cos(2 * pi * f0 * t);
 Ph3 = atan2(As3, Ac3); % 相位
 A2_3 = Ac3 .^ 2 + As3 .^ 2; % 包络平方
 At3 = sqrt(A2_3); % 包络
@@ -88,10 +95,10 @@ ylabel('概率密度')
 title('包络的概率分布')
 
 subplot(3, 1, 2)
-plot(xp1-phi1, pp1)
+plot(xp1 - phi1, pp1)
 hold on;
-plot(xp2-phi2, pp2)
-plot(xp3-phi3, pp3)
+plot(xp2 - phi2, pp2)
+plot(xp3 - phi3, pp3)
 xlim([-2 2])
 legend('A=2', 'A=4', 'A=8')
 hold off;

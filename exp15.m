@@ -1,3 +1,11 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       随机信号分析实验
+% 功能：依据序列绘制概率密度曲线
+% 作者：BenSmithLight
+% 开源地址：https://github.com/BenSmithLight/Stochastic-signal-analysis-experiment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% 生成高斯随机序列
 % 定义高斯分布的参数
 mu = 5; % 均值
 sigma = sqrt(10); % 标准差
@@ -5,6 +13,7 @@ sigma = sqrt(10); % 标准差
 % 生成高斯随机序列
 x = mu + sigma * randn(1000, 1);
 
+%% 绘制图像
 % 绘制直方图
 histogram(x, 50); % 使用 50 个区间画直方图
 xlabel('x'); % x 轴标签
